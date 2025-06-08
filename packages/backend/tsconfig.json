@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": [], // 🚫 disables global type pollution
     "target": "es2023",
     "module": "NodeNext",
     "baseUrl": "./src",
