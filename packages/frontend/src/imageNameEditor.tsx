@@ -9,6 +9,32 @@ interface INameEditorProps {
 
 }
 
+async function updateImageAuthor(id: string, username: string): Promise<void> {
+    const response = await fetch(`/api/images/update/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username }),
+    });
+  
+    let json: any = null;
+  
+    try {
+      json = await response.json(); // ✅ read once
+      console.log("Server response:", json);
+    } catch (err) {
+      console.warn("No JSON body returned or failed to parse JSON");
+    }
+  
+    if (!response.ok) {
+      // now you're safe — body was read only once
+      throw new Error(json?.error || "Failed to update image author");
+    }
+  
+    // continue here if needed...
+  }
+
 export function ImageNameEditor(props: INameEditorProps) {
     const [isEditingName, setIsEditingName] = useState(false);
     const [input, setInput] = useState(props.initialValue);
@@ -16,7 +42,7 @@ export function ImageNameEditor(props: INameEditorProps) {
 
         props.setImageData(prev =>
             prev.map(image =>
-              image.id === props.imageId
+              image._id === props.imageId
                 ? {
                     ...image,
                     author: {
@@ -26,7 +52,9 @@ export function ImageNameEditor(props: INameEditorProps) {
                   }
                 : image
             )
-          );            
+          );   
+          
+          updateImageAuthor(props.imageId, input).then(response => console.log(response));
 
     }
 

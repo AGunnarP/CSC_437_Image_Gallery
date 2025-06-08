@@ -15,15 +15,6 @@ const staticPath = path.resolve(process.cwd(), STATIC_DIR);
 const app = express();
 app.use(express.static(STATIC_DIR));
 
-/*function waitDuration(numMs: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, numMs));
-}
-
-async function awaitDuration(thing : Promise<void>){
-
-    await thing;
-
-}*/
 
 app.get(Object.keys(ValidRoutes), (_req, res) =>{
 

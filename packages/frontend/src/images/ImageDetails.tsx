@@ -14,11 +14,12 @@ export function ImageDetails(props : ImageDetailsProps) {
     const { imageId } = useParams()
 
     console.log(`Image details is ${imageId}`)
+    console.log(props.imageData)
 
     var whyIsThisAString : string;
     whyIsThisAString = (imageId)? imageId.toString() : "";
 
-    const image = props.imageData.find(image => image.id === imageId);
+    const image = props.imageData.find(image => image._id === imageId);
     if (!image) {
         return <><h2>Image not found</h2></>;
     }

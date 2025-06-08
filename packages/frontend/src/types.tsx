@@ -1,5 +1,5 @@
 export interface IApiImageData {
-  id: string;
+  _id: string;
   src: string;
   name: string;
   author: IApiUserData;
