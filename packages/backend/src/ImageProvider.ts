@@ -15,7 +15,6 @@ export interface IImageWithAuthor {
   author: {
     _id: ObjectId;
     username: string;
-    // …any other user fields you care about
   };
 }
 
@@ -25,41 +24,50 @@ export class ImageProvider {
   constructor(private readonly mongoClient: MongoClient) {
     const collName = process.env.IMAGES_COLLECTION_NAME;
     if (!collName) {
-      throw new Error(
-        "Missing IMAGES_COLLECTION_NAME from environment variables"
-      );
+      throw new Error("Missing IMAGES_COLLECTION_NAME from environment variables");
     }
     this.images = this.mongoClient.db().collection(collName);
   }
 
   /**
-   * Fetch all images, looking up the matching user by `authorId`
-   * and placing it into an `author` sub-document.
+   * Fetch all images (optionally filtering by name substring),
+   * and join with users by authorId → username
    */
-  getAllImagesWithAuthors(): Promise<IImageWithAuthor[]> {
-    return this.images
-      .aggregate<IImageWithAuthor>([
-        {
-          $lookup: {
-            from: "users",
-            localField: "authorId",      // the string in your image docs
-            foreignField: "username",    // adjust this to match your users schema
-            as: "author"
-          }
-        },
-        { $unwind: "$author" },
-        {
-          $project: {
-            src: 1,
-            name: 1,
-            author: {
-              _id: "$author._id",
-              username: "$author.username"
-              // …any other fields you want to expose
-            }
-          }
+  getImages(nameSubstring?: string): Promise<IImageWithAuthor[]> {
+    const matchStage = nameSubstring
+      ? {
+          $match: {
+            name: {
+              $regex: nameSubstring,
+              $options: "i", // case-insensitive
+            },
+          },
         }
-      ])
-      .toArray();
+      : undefined;
+
+    const pipeline = [
+      ...(matchStage ? [matchStage] : []),
+      {
+        $lookup: {
+          from: "users",
+          localField: "authorId",
+          foreignField: "username",
+          as: "author",
+        },
+      },
+      { $unwind: "$author" },
+      {
+        $project: {
+          src: 1,
+          name: 1,
+          author: {
+            _id: "$author._id",
+            username: "$author.username",
+          },
+        },
+      },
+    ];
+
+    return this.images.aggregate<IImageWithAuthor>(pipeline).toArray();
   }
 }

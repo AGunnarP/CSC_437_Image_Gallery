@@ -13,3 +13,12 @@ Content-Type: application/json # Content-Type header is a must if you're sending
 ### Search images by name substring
 # returns images whose `name` contains "dog" (case-insensitive)
 GET http://localhost:3000/api/images/search?query=cat
+
+
+### Edit an image name
+PATCH http://localhost:3000/api/images/update/6844dd8d5b905e3a4cea598a
+Content-Type: application/json
+
+{
+  "username": "Tubular Timothy"
+}

@@ -1,5 +1,7 @@
 import { ImageProvider } from "../ImageProvider";
 import { connectMongo } from "../connectMongo"
+import { MongoClient, ObjectId } from "mongodb";
+
 
 import dotenv from "dotenv";
 
@@ -74,6 +76,36 @@ let fetchCount = 0;
 export function fetchDataFromServer() {
     fetchCount++;
     console.log("Fetching data x" + fetchCount);
-    return provider.getAllImagesWithAuthors();
+    return provider.getImages();
 }
+
+export async function updateImageAuthorUsername(
+    imageIdStr: string,
+    newUsername: string
+  ): Promise<void> {
+    if (!ObjectId.isValid(imageIdStr)) {
+      throw new Error("Invalid image ID");
+    }
+  
+    const imageId = new ObjectId(imageIdStr);
+    const db = mongoClient.db(); // optionally .db("yourDbName")
+    const imagesCollection = db.collection("images");
+  
+    const result = await imagesCollection.updateOne(
+      { _id: imageId },
+      { $set: { authorId: newUsername, userName: newUsername } }
+    );
+  
+    console.log("Update result:", await result);
+  
+    if (result.matchedCount === 0) {
+      throw new Error("No image found with that ID");
+    }
+  
+    if (result.modifiedCount === 0) {
+      console.warn("Matched image, but authorId was already the same");
+    } else {
+      console.log(`✅ Updated image ${imageIdStr} with new author: ${newUsername}`);
+    }
+  }
 
