@@ -1,8 +1,8 @@
 import express from "express";
 import path from "path";
 import { ValidRoutes } from "./shared/ValidRoutes";
+import { registerImageRoutes } from "./routes/imageRoutes";
 import { fetchDataFromServer } from "./common/ApiImageData";
-
 
 const PORT = process.env.PORT || 3000;
 const STATIC_DIR = process.env.STATIC_DIR!; // "../frontend/dist"
@@ -30,17 +30,10 @@ app.get(Object.keys(ValidRoutes), (_req, res) =>{
 
     res.sendFile(staticPath)
 
-}
-
-    )
-
-
-
-app.get("/api/images", (_req, res) => {
-
-    fetchDataFromServer().then(data => res.send(data))
-
 });
+
+registerImageRoutes(app, fetchDataFromServer);
+
 
 
 
