@@ -2,6 +2,10 @@
 # This is a comment
 GET http://localhost:3000/api/images
 
+### Get all images
+GET http://localhost:3000/api/images
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDk0MzU5NzYsImV4cCI6MTc0OTUyMjM3Nn0.nwjKRPrPfFKAtuDEGKnmuG60LXgIwsPT4mT2cQAt1lg
+
 ### A second example.  Each request must be delimited by a triple hash
 POST http://localhost:3000/api/test
 Content-Type: application/json # Content-Type header is a must if you're sending JSON
@@ -17,8 +21,47 @@ GET http://localhost:3000/api/images/search?query=cat
 
 ### Edit an image name
 PATCH http://localhost:3000/api/images/update/6844dd8d5b905e3a4cea598a
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDk0MzcyMjUsImV4cCI6MTc0OTUyMzYyNX0.Iqfl0DWfIPX7YEOVTWbSZFkcCPM91HfwvQKconPY3Ho
 Content-Type: application/json
 
 {
   "username": "Tubular Timothy"
 }
+
+### New user registration
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{ "username": "newuser", "password": "password" }
+
+### Login Request
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "username": "Tubular Timothy",
+  "password": "password"
+}
+
+### ❌ Missing credentials (Expect 400 Bad Request)
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "username": "newuser"
+}
+
+###
+
+### ❌ Incorrect credentials (Expect 401 Unauthorized)
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "username": "newuser",
+  "password": "wrongpassword"
+}
+
+
+### Request JWT for a user
+GET http://localhost:3000/auth/jwt?username=testuser

@@ -1,6 +1,6 @@
 import { ImageProvider } from "../ImageProvider";
 import { connectMongo } from "../connectMongo"
-import { MongoClient, ObjectId } from "mongodb";
+import { ObjectId } from "mongodb";
 
 
 import dotenv from "dotenv";
@@ -33,6 +33,7 @@ export function fetchDataFromServer() {
 
 
 export async function updateImageAuthorUsername(
+  authorId : ObjectId,
   imageIdStr: string,
   newUsername: string
 ): Promise<{ success: boolean; updated?: object; warning?: string }> {
@@ -46,7 +47,7 @@ export async function updateImageAuthorUsername(
 
   const result = await imagesCollection.updateOne(
     { _id: imageId },
-    { $set: { authorId: newUsername, userName: newUsername } }
+    { $set: { authorId: authorId, userName: newUsername } }
   );
 
   if (result.matchedCount === 0) {

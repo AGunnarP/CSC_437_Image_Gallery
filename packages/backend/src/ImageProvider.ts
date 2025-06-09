@@ -2,7 +2,7 @@
 import { MongoClient, Collection, ObjectId } from "mongodb";
 
 export interface IImageDocument {
-  _id: ObjectId;
+  _id?: ObjectId;
   src: string;
   name: string;
   authorId: string;
@@ -28,6 +28,20 @@ export class ImageProvider {
     }
     this.images = this.mongoClient.db().collection(collName);
   }
+
+  /**
+ * Inserts a new image document into the images collection.
+ */
+async createImage(image: { src: string; name: string; authorId: string }): Promise<void> {
+
+  console.log("uploading image")
+    await this.images.insertOne({
+      src: image.src,
+      name: image.name,
+      authorId: image.authorId,
+    });
+  }
+
 
   /**
    * Fetch all images (optionally filtering by name substring),
