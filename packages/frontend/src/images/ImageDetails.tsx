@@ -29,7 +29,7 @@ export function ImageDetails(props : ImageDetailsProps) {
         <>
             <h2>{image.name}</h2>
             <p>By {image.author.username}</p>
-            <ImageNameEditor imageId={whyIsThisAString} initialValue={image.author.username} setImageData={props.setImageData} imageData={props.imageData} authToken={props.authToken}/>
+            <ImageNameEditor imageId={whyIsThisAString} initialValue={image.name} setImageData={props.setImageData} imageData={props.imageData} authToken={props.authToken}/>
             <img className="ImageDetails-img" src={image.src} alt={image.name} />
         </>
     )
