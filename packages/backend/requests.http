@@ -4,7 +4,7 @@ GET http://localhost:3000/api/images
 
 ### Get all images
 GET http://localhost:3000/api/images
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDk0MzU5NzYsImV4cCI6MTc0OTUyMjM3Nn0.nwjKRPrPfFKAtuDEGKnmuG60LXgIwsPT4mT2cQAt1lg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlR1YnVsYXIgVGltb3RoeSIsImlhdCI6MTc0OTUyNzg5MywiZXhwIjoxNzQ5NjE0MjkzfQ.ESNn8VGYAFWTag2jQDezs2kG9r8mwPVS1kKN5xOa-Bs
 
 ### A second example.  Each request must be delimited by a triple hash
 POST http://localhost:3000/api/test
@@ -20,12 +20,12 @@ GET http://localhost:3000/api/images/search?query=cat
 
 
 ### Edit an image name
-PATCH http://localhost:3000/api/images/update/6844dd8d5b905e3a4cea598a
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDk0MzcyMjUsImV4cCI6MTc0OTUyMzYyNX0.Iqfl0DWfIPX7YEOVTWbSZFkcCPM91HfwvQKconPY3Ho
+PATCH http://localhost:3000/api/images/update/684684e6e32ee60413b50e27
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlR1YnVsYXIgVGltb3RoeSIsImlhdCI6MTc0OTUyNzg5MywiZXhwIjoxNzQ5NjE0MjkzfQ.ESNn8VGYAFWTag2jQDezs2kG9r8mwPVS1kKN5xOa-Bs
 Content-Type: application/json
 
 {
-  "username": "Tubular Timothy"
+  "username": "chunkylover23"
 }
 
 ### New user registration

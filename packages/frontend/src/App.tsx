@@ -104,6 +104,7 @@ function App() {
                 <ImageDetails
                   imageData={imageData}
                   setImageData={setImageData}
+                  authToken={authToken}
                 />
               </ProtectedRoute>
             }

@@ -26,7 +26,7 @@ if (!jwtSecret) {
 
 app.locals.JWT_SECRET = jwtSecret;
 
-console.log(Object.values(ValidRoutes))
+//console.log(Object.values(ValidRoutes))
 
 app.get(Object.values(ValidRoutes), (_req, res) =>{
 
